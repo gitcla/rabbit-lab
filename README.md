@@ -9,6 +9,6 @@ This lab uses the following containers:
 
 You can scale up or down the number of receivers on Docker to check the rate of items consumed per second.
 
-RabbitMq management address:  http://<your host ip>:15672
+RabbitMq management address:  http://&lt;your host ip&gt;:15672
 
 To flood the queue you can use ab-flooder.sh (it uses Apache Benchmark tool).
