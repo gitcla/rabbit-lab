@@ -1,0 +1,12 @@
+{
+    "name": "rabbit-receiver",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+        "start": "node receiver.js"
+    },
+    "private": true,
+    "dependencies": {
+        "amqplib": "^0.5.2"
+    }
+}
