@@ -32,7 +32,7 @@ services:
   sender:
     image: dockla/rabbit-sender:v1
     deploy:
-      replicas: 1
+      replicas: 2
       restart_policy:
         condition: on-failure
       resources:
@@ -46,7 +46,7 @@ services:
   receiver:
     image: dockla/rabbit-receiver:1sec
     deploy:
-      replicas: 5
+      replicas: 6
       restart_policy:
         condition: on-failure
       resources:
