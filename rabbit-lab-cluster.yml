@@ -1,5 +1,16 @@
 version: "3"
 services:
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "9000:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - rabbitnet
   rabbitqueue:
     image: rabbitmq:3-management
     deploy:
@@ -12,7 +23,10 @@ services:
         condition: on-failure
     ports:
       - "15672:15672"
-      - "5672:5672"
+#      - "5672:5672"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
     networks:
       - rabbitnet
   sender:
@@ -39,17 +53,6 @@ services:
         limits:
           cpus: "0.1"
           memory: 50M
-    networks:
-      - rabbitnet
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "9000:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
     networks:
       - rabbitnet
 networks:
