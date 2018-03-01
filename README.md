@@ -7,6 +7,12 @@ This lab uses the following containers:
 - An HTTP endpoint written in NodeJS to publish a message on the queue (sender)
 - A NodeJS receiver that consumes the queue at a rate of 1 message / second
 
+Start the lab with the command:
+
+```
+docker stack deploy -c rabbit-lab-cluster.yaml rabbitlab
+```
+
 The following endpoint are available:
 
 - RabbitMq management address:  http://&lt;your host ip&gt;:15672
@@ -15,12 +21,12 @@ The following endpoint are available:
 
 To flood the queue you can use ab-flooder.sh (it uses Apache Benchmark tool).
 
-You can scale up or down the number of receivers on Docker to check the rate of items consumed per second with the command:
+You can scale up or down the number of receivers to check the rate of items consumed per second with the command:
 
 ```
 docker service scale rabbitlab_receiver=10
 ```
-Now you try to upgrade the receiver container with a new version that speed up the receiver process:
+Now try to upgrade the receiver with a new version that speeds up the process to 1msg/100msec:
 
 ```
 docker service update rabbitlab_receiver --image=dockla/rabbit-receiver:100msec
