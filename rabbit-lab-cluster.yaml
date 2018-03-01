@@ -46,7 +46,7 @@ services:
   receiver:
     image: dockla/rabbit-receiver:1sec
     deploy:
-      replicas: 6
+      replicas: 4
       restart_policy:
         condition: on-failure
       resources:
