@@ -10,7 +10,7 @@ This lab uses the following containers:
 Start the lab with the command:
 
 ```
-docker stack deploy -c rabbit-lab-cluster.yaml rabbitlab
+docker stack deploy -c rabbit-lab-cluster-swarm.yaml rabbitlab
 ```
 
 The following endpoint are available:
@@ -31,3 +31,44 @@ Now try to upgrade the receiver with a new version that speeds up the process to
 ```
 docker service update rabbitlab_receiver --image=dockla/rabbit-receiver:100msec
 ```
+
+
+You can deploy the app even on Kubernetes.
+For Minikube use:
+
+```
+minikube start
+kubectl create -f rabbit-lab-cluster-k8s.yaml
+```
+
+Now get the URLs of the endpoints:
+
+```
+minikube service sender-svc --url
+minikube service rabbitqueue-management-svc --url
+```
+
+Scale the receivers:
+
+```
+kubectl scale deployments/receiver --replicas=3
+```
+
+Check the dashboards:
+
+```
+minikube dashboard
+minikube addons open heapster
+```
+
+Destroy the cluster:
+
+```
+kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
+kubectl delete deployments sender receiver rabbitqueue
+```
+
+Improvements:
+
+- the receiver shouìd start only after the service rabbitqueue is available.
+- Run minikube with lower ports bound: minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
