@@ -78,8 +78,8 @@ minikube addons open heapster
 Destroy the cluster:
 
 ```
-kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
 kubectl delete deployments sender rabbitqueue receiver
+kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
 ```
 
 ### Improvements:
