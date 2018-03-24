@@ -7,6 +7,8 @@ This lab uses the following containers:
 - An HTTP endpoint written in NodeJS to publish a message on the queue (sender)
 - A NodeJS receiver that consumes the queue at a rate of 1 message / second
 
+## Deploy on Docker Swarm
+
 Start the lab with the command:
 
 ```
@@ -32,8 +34,8 @@ Now try to upgrade the receiver with a new version that speeds up the process to
 docker service update rabbitlab_receiver --image=dockla/rabbit-receiver:100msec
 ```
 
+## Deploy on Kubernetes
 
-You can deploy the app even on Kubernetes.
 For Minikube use:
 
 ```
@@ -48,13 +50,25 @@ minikube service sender-svc --url
 minikube service rabbitqueue-management-svc --url
 ```
 
-Scale the receivers:
+Start to flood the system:
 
 ```
-kubectl scale deployments/receiver --replicas=3
+ab -r -c 5 -n 100000 $(minikube service sender-svc --url)/
 ```
 
-Check the dashboards:
+Update the receivers:
+
+```
+kubectl rolling-update receiver-deployment-controller --image=dockla/rabbit-receiver:100msec --update-period=10s
+```
+
+Try to scale them up:
+
+```
+kubectl scale rc/receiver-deployment-controller --replicas=5
+```
+
+Check the dashboards to get many useful informations:
 
 ```
 minikube dashboard
@@ -65,10 +79,15 @@ Destroy the cluster:
 
 ```
 kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
-kubectl delete deployments sender receiver rabbitqueue
+kubectl delete rc receiver-deployment-controller
+kubectl delete deployments sender rabbitqueue
 ```
 
-Improvements:
+### Improvements:
 
-- the receiver shouìd start only after the service rabbitqueue is available.
-- Run minikube with lower ports bound: minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
+- [ ] the receiver shouìd start only after the service rabbitqueue is available
+- [ ] Try to scale the sender
+- [ ] Run minikube with lower ports bound:
+  minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
+- [ ] Use namespaces
+- [ ] Improve labeling and selectors

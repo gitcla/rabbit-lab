@@ -45,32 +45,22 @@ items:
           ports:
           - containerPort: 1337
             protocol: TCP
-- apiVersion: extensions/v1beta1
-  kind: Deployment
+- apiVersion: v1
+  kind: ReplicationController
   metadata:
-    labels:
-      run: receiver
-    name: receiver
+    name: receiver-deployment-controller
   spec:
-    replicas: 1 # You can scale the receivers to increase consumer speed
+    replicas: 3
     selector:
-      matchLabels:
-        run: receiver
-    strategy:
-      rollingUpdate:
-        maxSurge: 1
-        maxUnavailable: 1
-      type: RollingUpdate
+      component: receiver
     template:
       metadata:
         labels:
-          run: receiver
+          component: receiver
       spec:
         containers:
-        - image: dockla/rabbit-receiver:1sec
-          imagePullPolicy: IfNotPresent
-          name: receiver
-        restartPolicy: Always
+          - name: receiver
+            image: dockla/rabbit-receiver:1sec
 - apiVersion: v1
   kind: Service
   metadata:
