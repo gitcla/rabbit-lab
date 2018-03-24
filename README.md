@@ -1,5 +1,5 @@
 # rabbit-lab
-Lab with Rabbit and Docker containers.
+Lab with Rabbit and Docker containers
 
 This lab uses the following containers:
 
