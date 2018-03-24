@@ -85,9 +85,11 @@ kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
 ### Improvements:
 
 - [ ] the receiver shouìd start only after the service rabbitqueue is available
+
       https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-i-use-liveness-or-readiness-probes
 - [ ] Try to scale the sender
 - [ ] Run minikube with lower ports bound:
+
       minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
 - [ ] Use namespaces
 - [ ] Improve labeling and selectors
