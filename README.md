@@ -59,13 +59,13 @@ ab -r -c 5 -n 100000 $(minikube service sender-svc --url)/
 Update the receivers:
 
 ```
-kubectl rolling-update receiver-deployment-controller --image=dockla/rabbit-receiver:100msec --update-period=10s
+kubectl set image deployments/receiver receiver=dockla/rabbit-receiver:100msec
 ```
 
 Try to scale them up:
 
 ```
-kubectl scale rc/receiver-deployment-controller --replicas=5
+kubectl scale deployment receiver --replicas=5
 ```
 
 Check the dashboards to get many useful informations:
@@ -79,8 +79,7 @@ Destroy the cluster:
 
 ```
 kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
-kubectl delete rc receiver-deployment-controller
-kubectl delete deployments sender rabbitqueue
+kubectl delete deployments sender rabbitqueue receiver
 ```
 
 ### Improvements:
