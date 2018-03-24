@@ -45,24 +45,6 @@ items:
           ports:
           - containerPort: 1337
             protocol: TCP
-
-# - apiVersion: v1
-#   kind: ReplicationController
-#   metadata:
-#     name: receiver-deployment-controller
-#   spec:
-#     replicas: 3
-#     selector:
-#       component: receiver
-#     template:
-#       metadata:
-#         labels:
-#           component: receiver
-#       spec:
-#         containers:
-#           - name: receiver
-#             image: dockla/rabbit-receiver:1sec
-
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
