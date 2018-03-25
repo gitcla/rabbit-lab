@@ -57,6 +57,8 @@ Start to flood the system:
 ab -r -c 5 -n 100000 $(minikube service sender-svc --url)/
 ```
 
+Open the rabbit queue management console and check the GET number, it should be equal to the number of receivers because every consumer gets one message/sec.
+
 Update the receivers:
 
 ```
@@ -84,15 +86,16 @@ kubectl delete deployments,services -l app=rabbitlab
 
 ### Improvements:
 
+- [ ] Use namespaces
+
 - [ ] Try LoadBalancer and Ingres (must be enabled as an addon)
       https://gist.github.com/lotharschulz/5abd8ff96ec3dcd0ccaaef540bcf69e6
 
-- [ ] the receiver shouìd start only after the service rabbitqueue is available
+- [ ] the receiver should start only after the service rabbitqueue is available
       https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-i-use-liveness-or-readiness-probes
 
-- [ ] Try to scale the sender
 - [ ] Run minikube with lower ports bound:
 
       minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
-- [ ] Use namespaces
+
 - [x] Improve labeling and selectors
