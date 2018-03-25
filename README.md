@@ -41,6 +41,7 @@ For Minikube use:
 ```
 minikube start
 kubectl create -f rabbit-lab-cluster-k8s.yaml
+kubectl get all -l app=rabbitlab
 ```
 
 Now get the URLs of the endpoints:
@@ -78,8 +79,7 @@ minikube addons open heapster
 Destroy the cluster:
 
 ```
-kubectl delete deployments sender rabbitqueue receiver
-kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
+kubectl delete deployments,services -l app=rabbitlab
 ```
 
 ### Improvements:
@@ -92,4 +92,4 @@ kubectl delete services sender-svc rabbitqueue rabbitqueue-management-svc
 
       minikube start --extra-config=apiserver.ServerRunOptions.ServiceNodePortRange=1-30000
 - [ ] Use namespaces
-- [ ] Improve labeling and selectors
+- [x] Improve labeling and selectors
