@@ -5,6 +5,60 @@ metadata:
   selfLink: ""
 items:
 
+############ Services ###############
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: rabbitqueue
+    labels:
+      component: rabbitqueue
+      app: rabbitlab
+  spec:
+    ports:
+    - port: 5672
+      protocol: TCP
+      targetPort: 5672
+    selector:
+      component: rabbitqueue
+    type: ClusterIP # Should not be exposed outside of the Cluster
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: rabbitqueue-management-svc
+    labels:
+      component: rabbitqueue
+      app: rabbitlab
+  spec:
+    ports:
+    - nodePort: 32000
+      port: 15672
+      targetPort: 15672
+      protocol: TCP
+    selector:
+      component: rabbitqueue
+    sessionAffinity: None
+    type: NodePort
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: sender-svc
+    labels:
+      component: sender
+      app: rabbitlab
+  spec:
+    externalTrafficPolicy: Cluster
+    ports:
+    - nodePort: 32100
+      port: 1337
+      targetPort: 1337
+      protocol: TCP
+    selector:
+      component: sender
+    sessionAffinity: None
+    type: NodePort
+
 ############ Deployments ############
 - apiVersion: extensions/v1beta1
   kind: Deployment
@@ -82,57 +136,3 @@ items:
           imagePullPolicy: IfNotPresent
           name: receiver
         restartPolicy: Always
-
-############ Services ###############
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: rabbitqueue
-    labels:
-      component: rabbitqueue
-      app: rabbitlab
-  spec:
-    ports:
-    - port: 5672
-      protocol: TCP
-      targetPort: 5672
-    selector:
-      component: rabbitqueue
-    type: ClusterIP # Should not be exposed outside of the Cluster
-
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: rabbitqueue-management-svc
-    labels:
-      component: rabbitqueue
-      app: rabbitlab
-  spec:
-    ports:
-    - nodePort: 32000
-      port: 15672
-      targetPort: 15672
-      protocol: TCP
-    selector:
-      component: rabbitqueue
-    sessionAffinity: None
-    type: NodePort
-
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: sender-svc
-    labels:
-      component: sender
-      app: rabbitlab
-  spec:
-    externalTrafficPolicy: Cluster
-    ports:
-    - nodePort: 32100
-      port: 1337
-      targetPort: 1337
-      protocol: TCP
-    selector:
-      component: sender
-    sessionAffinity: None
-    type: NodePort
