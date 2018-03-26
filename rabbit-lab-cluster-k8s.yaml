@@ -31,7 +31,7 @@ items:
       app: rabbitlab
   spec:
     ports:
-    - nodePort: 32000
+    - nodePort: 32600
       port: 15672
       targetPort: 15672
       protocol: TCP
@@ -50,7 +50,7 @@ items:
   spec:
     externalTrafficPolicy: Cluster
     ports:
-    - nodePort: 32100
+    - nodePort: 32337
       port: 1337
       targetPort: 1337
       protocol: TCP
@@ -83,6 +83,13 @@ items:
           ports:
           - containerPort: 15672
             protocol: TCP
+          - containerPort: 5672
+            protocol: TCP
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 5672
+          #   initialDelaySeconds: 20
+          #   periodSeconds: 5
         restartPolicy: Always
 
 - apiVersion: extensions/v1beta1
@@ -131,6 +138,9 @@ items:
         labels:
           component: receiver
       spec:
+        initContainers:
+          - name: wait-init-rabbit
+            image: dockla/wait-init-rabbit
         containers:
         - image: dockla/rabbit-receiver:1sec
           imagePullPolicy: IfNotPresent
