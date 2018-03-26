@@ -86,13 +86,13 @@ kubectl delete deployments,services -l app=rabbitlab
 
 ### Improvements:
 
+- [ ] the receiver should start only after the service rabbitqueue is available
+      https://medium.com/@xcoulon/initializing-containers-in-order-with-kubernetes-18173b9cc222
+
 - [ ] Use namespaces
 
 - [ ] Try LoadBalancer and Ingres (must be enabled as an addon)
       https://gist.github.com/lotharschulz/5abd8ff96ec3dcd0ccaaef540bcf69e6
-
-- [ ] the receiver should start only after the service rabbitqueue is available
-      https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-i-use-liveness-or-readiness-probes
 
 - [ ] Run minikube with lower ports bound:
 
