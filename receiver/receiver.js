@@ -22,7 +22,6 @@ function runQueue(err, ch) {
     var myTimer = setInterval(threadPool, 1000);
 }
 
-// amqp.connect('amqp://192.168.56.101', function (err, conn) {
 amqp.connect('amqp://rabbitqueue', function (err, conn) {
     conn.createChannel(runQueue);
 });
