@@ -86,7 +86,7 @@ kubectl delete deployments,services -l app=rabbitlab
 
 ### Improvements:
 
-- [ ] the receiver should start only after the service rabbitqueue is available
+- [x] the receiver should start only after the service rabbitqueue is available
       https://medium.com/@xcoulon/initializing-containers-in-order-with-kubernetes-18173b9cc222
 
 - [ ] Use namespaces
