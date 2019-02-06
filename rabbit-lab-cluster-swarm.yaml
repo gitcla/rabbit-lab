@@ -21,12 +21,11 @@ services:
           memory: 300M
       restart_policy:
         condition: on-failure
+      placement:
+        constraints: [node.role == manager]
     ports:
       - "15672:15672"
 #      - "5672:5672"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
     networks:
       - rabbitnet
   sender:
